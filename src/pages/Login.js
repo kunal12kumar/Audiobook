@@ -1,6 +1,8 @@
 import React from "react";
 import galaxy from "../videos/8994820-hd_1080_1920_30fps.mp4"
 import Header from "./Header";
+import { Link } from "react-router-dom";
+import SignUp from "./SignUp";
 
 export default function Login() {
 
@@ -18,7 +20,7 @@ export default function Login() {
 
 
                         <h1 className="">Don't have Account? </h1>
-                        <button className="text-[#0F2F8C]">Sign UP</button>
+                        <Link to={'/SignUp'}><button className="text-[#0F2F8C]">Sign UP</button></Link>
                     </div>
                 </div>
             </div>
