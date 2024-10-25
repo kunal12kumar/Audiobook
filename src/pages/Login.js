@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import galaxy from "../videos/8994820-hd_1080_1920_30fps.mp4"
+// import galaxy from "../videos/8994820-hd_1080_1920_30fps.mp4"
 import Header from "./Header";
 import { Link } from "react-router-dom";
-import SignUp from "./SignUp";
+// import SignUp from "./SignUp";
+import { toast, ToastContainer } from "react-toastify";
+import axios from 'axios';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 export default function Login() {
 
@@ -18,22 +23,23 @@ export default function Login() {
         const inputname = event.target.name;
         const inputvalue = event.target.value;
         olddata[inputname] = inputvalue;
+        console.log(olddata)
         setlogindata(olddata);
 
     }
 
     // to store eachuserdata in a array;
 
-    const [saveddata, setsaveddata]=useState();
+    const [saveddata, setsaveddata]=useState([]);
 
 
     // to handel the change on form submission
 
-    const handelsubmit = (event) => {
+    const handelsubmit =async (event) => {
 
 
         // to stop the change on the refresh
-        event.preventdefault();
+        event.preventDefault();
 
         //to save eachuser data in the the existing array
 
@@ -42,9 +48,39 @@ export default function Login() {
             password:logindata.password
         }
 
-        let newsavedata=[...savedata,eachuserdata]
+        let newsavedata=[...saveddata,eachuserdata]
+        console.log(newsavedata)
 
         setsaveddata(newsavedata);
+
+        // checking the pawword of part
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#*?&])[A-Za-z\d@$!%#*?&]{8,}$/;
+
+        if (!passwordPattern.test(logindata.password)) {
+            toast.error('Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.');
+            return;
+        }
+
+        // calling the api to check that email and password is matiching or not
+
+        try{
+            const login= await axios.post('http://localhost:8091/api/ruserdata/userloginpage',{
+                email:logindata.email,
+                password:logindata.password
+            })
+
+            if (login.status===200){
+                toast.success(login.data.message);
+            }
+            // this is to go on the homepage after verification of the data
+            
+
+        }
+        catch(error){
+            toast.error(error.response?.data?.message);
+            toast.error("Try again");
+
+        }
 
         // to do empty afte the submission
         const aftersubmitdata = {
@@ -61,6 +97,7 @@ export default function Login() {
 
         <div className="w-full h-[600px] bg-[#F2B6D2]">
             <Header></Header>
+            <ToastContainer></ToastContainer>
             <form className="w-full h-[600px]" onSubmit={handelsubmit}>
 
                 <div className="w-[70%] h-[90%] flex  justify-center items-center justify-self-center   ">

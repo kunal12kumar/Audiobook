@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import galaxy from "../videos/3129957-uhd_3840_2160_25fps.mp4"
+// import galaxy from "../videos/3129957-uhd_3840_2160_25fps.mp4"
 import book from "../videos/5192068-uhd_2160_4096_25fps.mp4"
 
 
