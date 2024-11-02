@@ -12,7 +12,7 @@ export default function Header() {
                 <Link to={"/"}><h1>Aubook</h1></Link>
 
                 <Link to={"/"}><h1>Home</h1></Link>
-                <Link to={"/About_Us"}><h1>About Us</h1></Link>
+                <Link to={"/UploadSection"}><h1>About Us</h1></Link>
 
                 <Link to={"/Notification"}><h1>Notification icon</h1></Link>
                 <Link to={"/Login"}><h1 >Login</h1></Link>
