@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Uploadsection from './pages/Uploadsecttion';
+import Fileupload from './pages/Fileupload';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let allrouter=createBrowserRouter([
@@ -24,7 +25,7 @@ let allrouter=createBrowserRouter([
   },
   {
     path:'/UploadSection',
-    element:<Uploadsection></Uploadsection>
+    element:<Fileupload></Fileupload>
   }
 ]
 )
