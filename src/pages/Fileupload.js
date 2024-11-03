@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
@@ -32,20 +32,30 @@ export default function Fileupload() {
     }
 
     const submitchange = async (event) => {
-        event.preventDefault();
-        const formdata = new FormData();
-        formdata.append("Title", Filetitle);
-        formdata.append("File", File);
+        try{
+            event.preventDefault();
+            const formdata = new FormData();
+            formdata.append("Title", Filetitle);
+            formdata.append("File", File);
+    
+            console.log(formdata);
+            console.log(File);
+            console.log(Style);
+            console.log(Filetitle);
+    
+            const result= await axios.post("http://localhost:8091/api/rpdf/save",formdata,{
+                headers:{"Content-Type":"multipart/form-data"},
+            });
+            console.log(result);
+            if (result.status===200){
+                toast.success(result.message)
+            }
+        }catch{
+            toast.error("Uploading Failed");
 
-        console.log(formdata);
-        console.log(File);
-        console.log(Style);
-        console.log(Filetitle);
-
-        const result= await axios.post("http://localhost:8091/api/rpdf/save",formdata,{
-            headers:{"Content-Type":"multipart/form-data"},
-        });
-        console.log(result)
+        }
+       
+       
 
     }
 
