@@ -82,18 +82,26 @@ export default function Fileupload() {
                     </div>
 
 
-                    <button className='w-[40%] text-center bg-[#625252] font-serif h-[40px] flex justify-center mx-auto border-[2px] border-[#dba5a5]  m-8' >Upload</button>
+                    <button className='w-[40%] text-center bg-[#F2CEAE] pt-1 font-serif h-[40px] flex justify-center rounded-lg mx-auto border-[2px] border-[#dba5a5]  m-8' >Upload</button>
                 </div>
 
 
                 {/* this will show the pdf we will upload */}
                 <div className="w-[40%] h-[80%] rounded-lg bg-[#F2F2F2]">
                     <div className='flex flex-row justify-center'>
-                        <h1 className="m-4 text-2xl font-sans">Uploaded file</h1>
+                        <h1 className="m-4 text-2xl font-sans rounded-lg">Uploaded file</h1>
                        
                     </div>
                 </div>
 
+            </form>
+
+            {/* This button will be to furthur conversion of pdf to audiobook */}
+
+            <form className='w-full h-[50px] mt-0 bg-[#D9D9D9] justify-center items-center flex flex-row'>
+                <div className='w-[40%] h-[50px] flex justify-center items-center border-[2px] border-dotted border-red rounded-lg bg-[#0583F2]'>
+                    <button>Convert the pdf to Audiobook</button>
+                </div>
             </form>
 
         </div>
