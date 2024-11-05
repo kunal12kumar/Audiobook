@@ -10,6 +10,10 @@ export default function Fileupload() {
 
 
     const [File, setFile] = useState(''); // This is for hte file we upload for audio conversion 
+
+    // storing the formdata for extractchange
+
+    const [saveformdata,setsaveformdata]=useState('')
     // functions to save tiltle
 
     const [Style, setStyle] = useState(false);
@@ -32,30 +36,77 @@ export default function Fileupload() {
     }
 
     const submitchange = async (event) => {
-        try{
+        try {
             event.preventDefault();
             const formdata = new FormData();
             formdata.append("Title", Filetitle);
             formdata.append("File", File);
-    
+            setsaveformdata(formdata)
+
             console.log(formdata);
             console.log(File);
             console.log(Style);
             console.log(Filetitle);
-    
-            const result= await axios.post("http://localhost:8091/api/rpdf/save",formdata,{
-                headers:{"Content-Type":"multipart/form-data"},
+
+            const result = await axios.post("http://localhost:8091/api/rpdf/save", formdata, {
+                headers: { "Content-Type": "multipart/form-data" },
             });
             console.log(result);
-            if (result.status===200){
-                toast.success(result.message)
+            if (result.status === 200) {
+                toast.success("Uploaded Successfully")
             }
-        }catch{
+        } catch {
             toast.error("Uploading Failed");
 
         }
-       
-       
+
+
+
+    }
+
+    // function to send file to extract the letter
+
+    const extractchange = async (event) => {
+        try {
+            event.preventDefault();
+            // const formdata1 = new FormData();
+            // formdata1.append("Title", Filetitle);
+            // formdata1.append("File", File);
+            console.log(File);
+            console.log(Filetitle);
+            console.log(saveformdata)
+            const formdata = new FormData();
+            formdata.append("Title", Filetitle);
+            formdata.append("File", File);
+
+            // console.log(formdata1);
+            if (!File || !Filetitle) {
+                toast.error("File or Title missing for extraction.");
+                return;
+            }
+
+            const response = await axios.post("http://localhost:8091/api/rpdf/extract", formdata, {
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+            console.table(response);
+
+            setsaveformdata('');
+
+            if (response.status === 200) {
+                console.table(response);
+                console.log(response.data.text);
+                toast.success("Extraction Successful")
+            }
+
+        } catch (err) {
+
+            console.table(err);
+            toast.error("Extraction Failed");
+
+        }
+
+
+
 
     }
 
@@ -64,7 +115,7 @@ export default function Fileupload() {
         <div >
 
             <ToastContainer />
-            <form onSubmit={submitchange} className="w-full h-[500px] bg-[#D9D9D9] justify-center items-center flex flex-row row-span-1 gap-14">
+            <form onSubmit={submitchange} className="w-full  h-[480px] bg-[#D9D9D9] justify-center items-center flex flex-row row-span-1 gap-14">
                 <div className="w-[40%] h-[80%] rounded-lg bg-[#F2F2F2]">
                     <div className='flex flex-row justify-between'>
                         <h1 className="m-4 text-2xl font-sans">Upload file</h1>
@@ -90,7 +141,7 @@ export default function Fileupload() {
                 <div className="w-[40%] h-[80%] rounded-lg bg-[#F2F2F2]">
                     <div className='flex flex-row justify-center'>
                         <h1 className="m-4 text-2xl font-sans rounded-lg">Uploaded file</h1>
-                       
+
                     </div>
                 </div>
 
@@ -98,7 +149,7 @@ export default function Fileupload() {
 
             {/* This button will be to furthur conversion of pdf to audiobook */}
 
-            <form className='w-full h-[50px] mt-0 bg-[#D9D9D9] justify-center items-center flex flex-row'>
+            <form onSubmit={extractchange} className='w-full pb-9 h-[80px] mt-0 bg-[#D9D9D9] justify-center items-center flex flex-row'>
                 <div className='w-[40%] h-[50px] flex justify-center items-center border-[2px] border-dotted border-red rounded-lg bg-[#0583F2]'>
                     <button>Convert the pdf to Audiobook</button>
                 </div>
